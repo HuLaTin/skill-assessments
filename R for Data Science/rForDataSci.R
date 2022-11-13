@@ -36,7 +36,7 @@ cor_year <- gapminder %>%
     `gdpPercap`, use = "complete.obs")) %>%
     slice(which.max(cor))
 
-print(cor_year)
+#print(cor_year)
 
 # filtered for strongest correlation year
 # using Plotly
@@ -51,6 +51,15 @@ corr_year_plot <- gapminder %>%
     ggplot(aes(x = `CO2 emissions (metric tons per capita)`,
     y = gdpPercap)) +
     geom_point(aes(color = continent, size = pop)) +
-    labs(title="Title")
+    labs(title = "CO2 Emissions vs GDP Per Cap, 1967")
 
-ggplotly(corr_year_plot)
+corr_year_plot <- ggplotly(corr_year_plot)
+
+cont_v_energy <- gapminder %>%
+    group_by(continent) %>%
+    summarize(sum_energy = sum(`Energy use (kg of oil equivalent per capita)`, na.rm = T)) %>% # nolint
+    ggplot(aes(x = continent, y = sum_energy)) +
+    geom_col(aes(color = continent)) +
+    labs(title = "Continent Vs Energy Use")
+
+cont_v_energy <- ggplotly(cont_v_energy)
